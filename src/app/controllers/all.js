@@ -16,4 +16,5 @@ define([
   './annotationsEditorCtrl',
   './templateEditorCtrl',
   './jsonEditorCtrl',
+  './kairosTargetCtrl',
 ], function () {});

@@ -19,4 +19,5 @@ define([
   './graphiteSegment',
   './grafanaVersionCheck',
   './influxdbFuncEditor'
+  './kairosdbFuncEditor'
 ], function () {});

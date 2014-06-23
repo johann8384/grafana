@@ -92,6 +92,14 @@ function (angular, _, kbn) {
       }
     };
 
+
+    $scope.duplicate = function() {
+      var clone = angular.copy($scope.target);
+      $scope.panel.targets.push(clone);
+    };
+
+
+
   });
 
 });

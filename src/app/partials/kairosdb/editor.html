@@ -47,26 +47,24 @@
 		       data-min-length=0 data-items=600
 		       ><!-- ng-blur="seriesBlur()" -->
 
-		<ul class="grafana-segment-list" role="menu">
+		<ul class="grafana-segment-list nav-tabs" role="menu">
 
-			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
+			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']" class="{{indexTab == $index ? 'active':''}}">
 				 <a class="grafana-target-segment" ng-click="activeTab($index)">{{tab}}</a>
-			</li>
-
-			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
-				<div ng-if="indexTab == $index">
-					<div class="editor-row">
-						<div class="section">
-							<div class="editor-option">
-								{{tab}}
-							</div>
-						</div>
-					</div>
-				</div>
 			</li>
 
 		</ul>
 
+
+		<div class="grafana-segment-list" role="menu" class="grafana-target-segment">
+			<div ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
+				<div ng-if="indexTab == $index" style="float:left;clear:both;">
+					<a class="grafana-target-segment" ng-click="addFilterRow(tab)">
+						<i class="icon-plus"></i>
+					</a>
+				</div>
+			</div>
+		</div>
 
 	    <div class="clearfix"></div>
 	  </div>

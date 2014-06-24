@@ -88,10 +88,6 @@ function (angular, _, kbn) {
       });
     };
 
-    $scope.canShowTags = function() {
-      return !angular.equals($scope.tagsList, {});
-    }
-
     $scope.$watch('target.series',function(){
       if (angular.isDefined($scope.target.series)) {
 	console.log("update tags for ",$scope.target.series);

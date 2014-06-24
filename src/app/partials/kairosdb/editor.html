@@ -50,16 +50,15 @@
 		<ul class="grafana-segment-list" role="menu">
 
 			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
-				 <a class="grafana-target-segment" ng-click="indexTab = $index">{{tab}}</a>
+				 <a class="grafana-target-segment" ng-click="activeTab($index)">{{tab}}</a>
 			</li>
 
 			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
-				{{indexTab}},{{$index}}
-				<div ng-show="indexTab == $index">
+				<div ng-if="indexTab == $index">
 					<div class="editor-row">
 						<div class="section">
 							<div class="editor-option">
-								{{TAB}}
+								{{tab}}
 							</div>
 						</div>
 					</div>

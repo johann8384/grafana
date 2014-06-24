@@ -47,6 +47,8 @@ function (angular, _, kbn) {
 	obj.name = target.series;
 	obj.tags = {};
 	obj.aggregators = [{name: "avg", sampling:{value: value, unit: "milliseconds"}}];
+	//console.log(obj);
+
 	return obj;
       })
       .value();
@@ -57,9 +59,6 @@ function (angular, _, kbn) {
 	method: 'POST',
 	url: '/api/v1/datapoints/query',
 	data: payload
-	// headers: {
-	//   'Content-Type': 'application/x-www-form-urlencoded',
-	// }
       };
       return this.doKairosDBRequest(query).then(handleKairosDBQueryResponse);
     }
@@ -74,13 +73,38 @@ function (angular, _, kbn) {
       });
     };
 
+    KairosDatasource.parseTags = function(query_tags) {
+      return query_tags.queries[0].results[0].tags;
+    }
+
+    KairosDatasource.prototype.listTags = function(series) {
+
+      var payload = {
+	metrics:[{'tags':{},'name':series}],
+	cache_time:0,
+	start_absolute:0
+      };
+
+      var query = {
+	method: 'POST',
+	url:'/api/v1/datapoints/query/tags',
+	data: payload,
+	headers: {
+	  'Content-Type': 'application/x-www-form-urlencoded'
+	}
+      };
+
+      return this.doKairosDBRequest(query).then(function(results) {
+	return angular.isDefined(results.data) ? KairosDatasource.parseTags(results.data) : {}
+      });
+    };
+
     KairosDatasource.prototype.doKairosDBRequest = function(options) {
       if (!options.method) {
 	options.method = 'GET';
       }
 
       options.url = this.url + options.url;
-
       return $http(options);
     };
 

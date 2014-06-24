@@ -8,11 +8,11 @@ function (angular, _, kbn) {
 
   var module = angular.module('kibana.controllers');
 
-  var seriesList = null;
-
   module.controller('KairosTargetCtrl', function($scope, $timeout) {
 
     $scope.init = function() {
+
+      $scope.tagsList = {};
 
       $scope.aggregators  = [
 	"avg",
@@ -64,41 +64,41 @@ function (angular, _, kbn) {
       }
     };
 
-    // called outside of digest
-    $scope.listColumns = function(query, callback) {
-      if (!$scope.columnList) {
-	$scope.$apply(function() {
-	  $scope.datasource.listColumns($scope.target.series).then(function(columns) {
-	    $scope.columnList = columns;
-	    callback(columns);
-	  });
-	});
-      }
-      else {
-	return $scope.columnList;
-      }
-    };
-
-    $scope.listSeries = function(query, callback) {
-      if (!seriesList) {
-	seriesList = [];
-	$scope.datasource.listSeries().then(function(series) {
-	  seriesList = series;
-	  callback(seriesList);
-	});
-      }
-      else {
-	return seriesList;
-      }
-    };
-
-
     $scope.duplicate = function() {
       var clone = angular.copy($scope.target);
       $scope.panel.targets.push(clone);
     };
 
+    $scope.listSeries = function(query, callback) {
+      if (!$scope.seriesList) {
+	$scope.seriesList = [];
+	$scope.datasource.listSeries().then(function(series) {
+	  $scope.seriesList = series;
+	  callback($scope.seriesList);
+	});
+      }
+      else {
+	return $scope.seriesList;
+      }
+    };
 
+    $scope.listTags = function() {
+      $scope.datasource.listTags($scope.target.series).then(function(tags) {
+	$scope.tagsList = tags;
+      });
+    };
+
+    $scope.canShowTags = function() {
+      return !angular.equals($scope.tagsList, {});
+    }
+
+    $scope.$watch('target.series',function(){
+      if (angular.isDefined($scope.target.series)) {
+	console.log("update tags for ",$scope.target.series);
+	$scope.listTags();
+      }
+
+    });
 
   });
 

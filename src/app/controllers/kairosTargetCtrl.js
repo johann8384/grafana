@@ -12,6 +12,8 @@ function (angular, _, kbn) {
 
     $scope.init = function() {
 
+      $scope.indexTab = -1;
+
       $scope.tagsList = {};
 
       $scope.aggregators  = [

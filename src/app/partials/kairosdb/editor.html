@@ -49,11 +49,25 @@
 
 		<ul class="grafana-segment-list" role="menu">
 
-			<li class="grafana-target-segment">Group by</li>
-			<li class="grafana-target-segment">Aggregators</li>
-			<li class="grafana-target-segment">Tags</li>
+			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
+				 <a class="grafana-target-segment" ng-click="indexTab = $index">{{tab}}</a>
+			</li>
+
+			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
+				{{indexTab}},{{$index}}
+				<div ng-show="indexTab == $index">
+					<div class="editor-row">
+						<div class="section">
+							<div class="editor-option">
+								{{TAB}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
 
 		</ul>
+
 
 	    <div class="clearfix"></div>
 	  </div>

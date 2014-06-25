@@ -58,7 +58,7 @@
 
 		<div class="grafana-segment-list" role="menu" class="grafana-target-segment">
 			<div ng-repeat="tab in tabs">
-				<div ng-if="indexTab == $index" style="float:left;clear:both;">
+				<div ng-show="indexTab == $index" style="float:left;clear:both;">
 					<div ng-include src="getTemplateTab(tab)"></div>
 				</div>
 			</div>

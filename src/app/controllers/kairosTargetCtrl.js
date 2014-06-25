@@ -99,7 +99,13 @@ function (angular, _, kbn) {
     };
 
     $scope.activeTab = function(index) {
-      $scope.indexTab = index;
+
+      if ($scope.indexTab == index) {
+	$scope.indexTab = -1;
+      } else {
+	$scope.indexTab = index;
+      }
+
     }
 
     $scope.$watch('target.series',function(){

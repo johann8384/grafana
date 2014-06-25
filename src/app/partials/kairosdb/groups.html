@@ -1,0 +1,23 @@
+<div>
+
+	<a class="grafana-target-segment">
+		<i class="icon-plus"></i>
+
+	</a>
+
+	<select ng-model="newType" ng-options="o.name for o in  [{value:newTag(),name:'Tags'},{value:newTime(),name:'Time'},{value:newValue(),name:'Value'}]">
+		<option value="">Select type</option>
+	</select>
+
+	<ul>
+
+		<li ng-repeat="group in listGroups">
+
+			<p>{{$index}},{{group}}</p>
+
+
+		</li>
+
+	</ul>
+
+</div>

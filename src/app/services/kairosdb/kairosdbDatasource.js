@@ -37,17 +37,23 @@ function (angular, _, kbn) {
       var delta = this.deltaTime(options.range.from, options.range.to);
       var value = delta / options.maxDataPoints;
 
+      payload.cache_time = 0;
       payload.metrics = _.chain(options.targets).reject(function(target) {
 	return (!target.series /*|| !target.column*/ || target.hide);
       }).map(function(target) {
 
 	//console.log("QUERY!!!! ",target);
 
-	var obj = {};
-	obj.name = target.series;
-	obj.tags = target.tags;
-	obj.aggregators = [{name: "avg", sampling:{value: value, unit: "milliseconds"}}];
-	//console.log(obj);
+	var obj   = {};
+	obj.name  = target.series;
+	obj.tags  = target.tags;
+	if (target.aggregators.length>0) {
+	  obj.aggregators = target.aggregators;
+	}
+	if (target.groups.length>0) {
+	  obj.group_by = target.groups;
+	}
+	console.log(obj);
 
 	return obj;
       })
@@ -58,7 +64,12 @@ function (angular, _, kbn) {
       var query = {
 	method: 'POST',
 	url: '/api/v1/datapoints/query',
-	data: payload
+	data: payload,
+	/*
+	headers: {
+	  'Content-Type': 'application/x-www-form-urlencoded'
+	}
+	*/
       };
       return this.doKairosDBRequest(query).then(handleKairosDBQueryResponse);
     }

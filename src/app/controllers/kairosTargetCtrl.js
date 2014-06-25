@@ -43,17 +43,9 @@ function (angular, _, kbn) {
 	"years"
       ];
 
-      if (!$scope.target.aggregators) {
-	$scope.target.aggregators = {};
-      }
-
-      if (!$scope.target.groups) {
-	$scope.target.groups = {};
-      }
-
-      if (!$scope.target.tags) {
-	$scope.target.tags = {};
-      }
+      $scope.target.aggregators = [];
+      $scope.target.groups = [];
+      $scope.target.tags = {};
 
       $scope.oldSeries = $scope.target.series;
       $scope.$on('typeahead-updated', function(){

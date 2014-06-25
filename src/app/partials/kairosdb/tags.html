@@ -1,0 +1,12 @@
+<ul class="grafana-segment-list">
+	<li ng-repeat="(tag,values) in tagsList">
+		<p>{{tag}}:</p>
+
+		<ul class="grafana-segment-list">
+			<li ng-repeat="value in values" ng-click="manageTag(tag,value)" style="opacity:{{target.tags[tag].indexOf(value) == -1 ? '0.7':'1'}};padding-left:5px;">
+				{{value}}
+			</li>
+		</ul>
+
+	</li>
+<ul>

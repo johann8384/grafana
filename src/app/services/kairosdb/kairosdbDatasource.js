@@ -45,7 +45,7 @@ function (angular, _, kbn) {
 
 	var obj = {};
 	obj.name = target.series;
-	obj.tags = {};
+	obj.tags = target.tags;
 	obj.aggregators = [{name: "avg", sampling:{value: value, unit: "milliseconds"}}];
 	//console.log(obj);
 

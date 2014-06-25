@@ -12,6 +12,9 @@ function (angular, _, kbn) {
 
     $scope.init = function() {
 
+
+      $scope.tabs = ['Group by', 'Aggregators','Tags'];
+
       $scope.indexTab = -1;
 
       $scope.tagsList = {};
@@ -41,15 +44,15 @@ function (angular, _, kbn) {
       ];
 
       if (!$scope.target.aggregators) {
-	$scope.target.aggregators = [];
+	$scope.target.aggregators = {};
       }
 
       if (!$scope.target.groups) {
-	$scope.target.groups = [];
+	$scope.target.groups = {};
       }
 
       if (!$scope.target.tags) {
-	$scope.target.tags = [];
+	$scope.target.tags = {};
       }
 
       $scope.oldSeries = $scope.target.series;
@@ -87,6 +90,11 @@ function (angular, _, kbn) {
     $scope.listTags = function() {
       $scope.datasource.listTags($scope.target.series).then(function(tags) {
 	$scope.tagsList = tags;
+	angular.forEach($scope.tagsList, function(value, key) {
+	  if (!angular.isDefined(this[key])) {
+	    this[key] = [];
+	  }
+	}, $scope.target.tags);
       });
     };
 
@@ -101,6 +109,40 @@ function (angular, _, kbn) {
       }
 
     });
+
+    $scope.$watch('target.tags',function(){
+      console.log($scope.target.tags);
+      $scope.get_data();
+    },true);
+
+    $scope.getTemplateTab = function(tab) {
+
+      if (tab == 'Group by') {
+	return "app/partials/kairosdb/group-by.html";
+      }
+
+      if (tab == 'Aggregators') {
+	return "app/partials/kairosdb/aggregators.html";
+      }
+
+      if (tab == 'Tags') {
+	return "app/partials/kairosdb/tags.html";
+      }
+
+    }
+
+    $scope.manageTag = function(tag,value) {
+
+      var index = $scope.target.tags[tag].indexOf(value);
+
+      if ( index == -1) {
+	$scope.target.tags[tag].push(value);
+      } else {
+	$scope.target.tags[tag].splice(index, 1);
+      }
+
+      console.log($scope.target.tags);
+    }
 
   });
 

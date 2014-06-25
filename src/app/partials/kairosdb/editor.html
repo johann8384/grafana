@@ -49,7 +49,7 @@
 
 		<ul class="grafana-segment-list nav-tabs" role="menu">
 
-			<li ng-repeat="tab in ['Group by', 'Aggregators','Tags']" class="{{indexTab == $index ? 'active':''}}">
+			<li ng-repeat="tab in tabs" class="{{indexTab == $index ? 'active':''}}">
 				 <a class="grafana-target-segment" ng-click="activeTab($index)">{{tab}}</a>
 			</li>
 
@@ -57,11 +57,9 @@
 
 
 		<div class="grafana-segment-list" role="menu" class="grafana-target-segment">
-			<div ng-repeat="tab in ['Group by', 'Aggregators','Tags']">
+			<div ng-repeat="tab in tabs">
 				<div ng-if="indexTab == $index" style="float:left;clear:both;">
-					<a class="grafana-target-segment" ng-click="addFilterRow(tab)">
-						<i class="icon-plus"></i>
-					</a>
+					<div ng-include src="getTemplateTab(tab)"></div>
 				</div>
 			</div>
 		</div>

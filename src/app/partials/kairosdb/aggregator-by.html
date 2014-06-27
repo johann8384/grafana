@@ -1,0 +1,13 @@
+<div>
+
+	<a class="grafana-target-segment">
+		<i class="icon-plus"></i>
+
+	</a>
+
+	<select ng-model="newType" ng-options="o.name for o in  [{value:newTag(),name:'Tags'},{value:newTime(),name:'Time'},{value:newValue(),name:'Value'}]">
+		<option value="">Select type</option>
+	</select>
+
+
+</div>

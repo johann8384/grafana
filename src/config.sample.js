@@ -34,6 +34,14 @@ function (Settings) {
         password: 'admin',
         grafanaDB: true
       },
+      graphite: {
+        type: 'graphite',
+        url: "http://my.graphite.server.com:8080",
+      },
+      kairosdb: {
+      	type: 'kairosdb',
+      	url: "http://my.kairosdb.server:8080"
+      },
     },
     */
 

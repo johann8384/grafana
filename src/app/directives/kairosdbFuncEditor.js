@@ -19,6 +19,18 @@ function (angular, _, $) {
       };
 
     })
+
+       .directive('kairosAggregators', function($compile) {
+
+      return {
+	restrict: 'E',
+	scope: true,
+	templateUrl: 'app/partials/kairosdb/aggregator-by.html'
+
+      };
+
+    })
+
     .directive('kairosGroupby', function($compile) {
 
       return {
@@ -47,9 +59,9 @@ function (angular, _, $) {
 	    }
 	  });
 
+    scope.remove = function(index){
+      scope.listGroups.splice(index,1);
+    }
 	}
-      };
-
-    });
-
+ };
 });

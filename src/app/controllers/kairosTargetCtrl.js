@@ -142,6 +142,9 @@ function (angular, _, kbn) {
       console.log($scope.target.tags);
     }
 
+
+
+
   });
 
 });

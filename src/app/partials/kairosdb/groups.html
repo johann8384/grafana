@@ -13,11 +13,58 @@
 
 		<li ng-repeat="group in listGroups">
 
-			<p>{{$index}},{{group}}</p>
+			<ul class="">
 
+
+				<li>
+					<span class="grafana-target-controls">
+					   <a class="pointer" ng-click="remove($index)" tabindex="1">
+					   <i class="icon-remove"></i>
+					   </a>
+					</span>
+				</li>
+
+				<li ng-if="group.name == 'tag'" style="margin-top:10px;">
+					<input type="text"
+					       class="input-medium grafana-target-segment-input span10"
+					       ng-model="t"
+					       spellcheck='false'
+					       bs-typeahead="scope.tagsList"
+					       placeholder="search tag names"
+					       data-min-length=0 data-items=600
+					       /><!-- ng-blur="seriesBlur()" -->
+
+				</li>
+
+				<li ng-if="group.name == 'time'" style="margin-top:10px;" class="grafana-target-segment-input">
+							<input class="input-medium" type="text"  placeholder="target size">
+
+							<select class="input-small" style="width:auto;">
+								<option value="0">Years</option>
+								<option value="1">Months</option>
+								<option value="2">Weeks</option>
+								<option value="3">Days</option>
+								<option value="4">Hours</option>
+								<option value="5">Minutes</option>
+								<option value="6">Seconds</option>
+								<option value="7" selected="selected">Milliseconds</option>
+							</select>
+
+							<input class="input-small" type="number"" >
+
+				</li>
+
+				<li ng-if="group.name == 'value'" style="margin-top:10px;">
+						<input class="input-medium" type="text"  placeholder="target size">
+
+
+				</li>
+			</ul>
 
 		</li>
 
 	</ul>
+
+
 
 </div>

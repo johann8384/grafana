@@ -31,7 +31,9 @@
 			</span>
 
 			<span ng-if="group.name == 'value'" class="grafana-target-segment-list">
-				<input class="input-medium" type="text"  placeholder="target size">
+				<input class="input-medium" type="number"  placeholder="target size"
+				ng-model="group.range_size"
+				>
 			</span>
 
 		</li>

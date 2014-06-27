@@ -25,13 +25,17 @@
 			</span>
 
 			<span ng-if="group.name == 'time'" class="grafana-target-segment-list">
-				<input ng-model="group.range_size.value" class="input-medium" type="number" placeholder="target units">
+
+				<input ng-model="group.range_size.value" class="input-medium" type="text" placeholder="target units">
+
 				<select ng-model="group.range_size.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
-				<input ng-model="group.group_count" class="input-small" type="number" placeholder="target size">
+				
+				<input ng-model="group.group_count" class="input-small" type="text" placeholder="target size">
+
 			</span>
 
 			<span ng-if="group.name == 'value'" class="grafana-target-segment-list">
-				<input class="input-medium" type="number"  placeholder="target size"
+				<input class="input-medium" type="text"  placeholder="target size"
 				ng-model="group.range_size"
 				>
 			</span>

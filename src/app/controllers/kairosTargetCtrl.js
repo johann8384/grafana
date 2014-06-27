@@ -109,7 +109,14 @@ function (angular, _, kbn) {
     });
 
     $scope.$watch('target.tags',function(){
+      console.log("$scope.target.tags");
       console.log($scope.target.tags);
+      $scope.get_data();
+    },true);
+
+    $scope.$watch('target.groups',function(){
+      console.log("$scope.target.groups");
+      console.log($scope.target.groups);
       $scope.get_data();
     },true);
 
@@ -139,7 +146,6 @@ function (angular, _, kbn) {
 	$scope.target.tags[tag].splice(index, 1);
       }
 
-      console.log($scope.target.tags);
     }
 
 

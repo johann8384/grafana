@@ -11,10 +11,8 @@
 
 	<ul>
 
-		<li ng-repeat="group in listGroups">
-
-			<ul class="">
-
+		<li ng-repeat="group in target.groups">
+			<ul class="grafana-segment-list">
 
 				<li>
 					<span class="grafana-target-controls">
@@ -25,15 +23,11 @@
 				</li>
 
 				<li ng-if="group.name == 'tag'" style="margin-top:10px;">
-					<input type="text"
-					       class="input-medium grafana-target-segment-input span10"
-					       ng-model="t"
-					       spellcheck='false'
-					       bs-typeahead="scope.tagsList"
-					       placeholder="search tag names"
-					       data-min-length=0 data-items=600
-					       /><!-- ng-blur="seriesBlur()" -->
-
+					<ul>
+						<li ng-repeat="(tagName,tagValues) in tagsList" class="grafana-segment-list" ng-click="manageTagInGroup(group,tagName)" style="color:{{group.tags.indexOf(tagName) == -1 ? '':'#33b5e5'}};margin:0 auto;">
+							{{tagName}}
+						</li>
+					</ul>
 				</li>
 
 				<li ng-if="group.name == 'time'" style="margin-top:10px;" class="grafana-target-segment-input">
@@ -48,10 +42,8 @@
 								<option value="5">Minutes</option>
 								<option value="6">Seconds</option>
 								<option value="7" selected="selected">Milliseconds</option>
-							</select>
-
-							<input class="input-small" type="number"" >
-
+							</select>							
+							<input class="input-small" type="number" >
 				</li>
 
 				<li ng-if="group.name == 'value'" style="margin-top:10px;">

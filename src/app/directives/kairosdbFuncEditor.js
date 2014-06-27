@@ -34,10 +34,12 @@ function (angular, _, $) {
     .directive('kairosGroupby', function($compile) {
 
       return {
+
 	restrict: 'E',
 	scope: true,
 	templateUrl: 'app/partials/kairosdb/groups.html',
-	link: function(scope, elem) {
+	
+  link: function(scope, elem) {
 
 	  scope.listGroups = [];
 
@@ -52,15 +54,25 @@ function (angular, _, $) {
 	  scope.newValue = function() {
 	    return {name:'value',range_size:''}
 	  }
-
+<<<<<<< HEAD
 	  scope.$watch('newType',function(){
 	    if (angular.isDefined(scope.newType)) {
-	       scope.listGroups.push(scope.newType.value);
+	       scope.target.groups.push(scope.newType.value);
 	    }
 	  });
 
+    scope.manageTagInGroup = function(group,tagName) {
+      var indexTag = group.tags.indexOf(tagName);
+
+      if ( indexTag == -1) {
+        group.tags.push(tagName);
+      } else {
+        group.tags.splice(indexTag, 1);
+      }
+    }
+
     scope.remove = function(index){
-      scope.listGroups.splice(index,1);
+      scope.target.groups.splice(index,1);
     }
 	}
  };

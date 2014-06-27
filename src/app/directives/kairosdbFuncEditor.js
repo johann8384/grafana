@@ -9,71 +9,62 @@ function (angular, _, $) {
   angular
     .module('kibana.directives')
     .directive('kairosdbFuncEditor', function($compile) {
-
       return {
-	restrict: 'A',
-	link: function postLink($scope, elem) {
-
-
-	}
+        restrict: 'A',
+        link: function postLink($scope, elem) {
+        }
       };
-
     })
 
-       .directive('kairosAggregators', function($compile) {
-
+    .directive('kairosAggregators', function($compile) {
       return {
-	restrict: 'E',
-	scope: true,
-	templateUrl: 'app/partials/kairosdb/aggregator-by.html'
-
+        restrict: 'E',
+        scope: true,
+        templateUrl: 'app/partials/kairosdb/aggregator-by.html'
       };
-
     })
 
     .directive('kairosGroupby', function($compile) {
-
       return {
+        restrict: 'E',
+        scope: true,
+        templateUrl: 'app/partials/kairosdb/groups.html',
 
-	restrict: 'E',
-	scope: true,
-	templateUrl: 'app/partials/kairosdb/groups.html',
-	
-  link: function(scope, elem) {
+        link: function(scope, elem) {
+          scope.listGroups = [];
 
-	  scope.listGroups = [];
+          scope.newTag = function() {
+            return {name:'tag',tags:[]}
+          }
 
-	  scope.newTag = function() {
-	    return {name:'tag',tags:[]}
-	  }
+          scope.newTime = function() {
+            return {name:'time',group_count:'',range_size:{value:'',unit:''}}
+          }
 
-	  scope.newTime = function() {
-	    return {name:'time',group_count:'',range_size:{value:'',unit:''}}
-	  }
+          scope.newValue = function() {
+            return {name:'value',range_size:''}
+          }
 
-	  scope.newValue = function() {
-	    return {name:'value',range_size:''}
-	  }
-<<<<<<< HEAD
-	  scope.$watch('newType',function(){
-	    if (angular.isDefined(scope.newType)) {
-	       scope.target.groups.push(scope.newType.value);
-	    }
-	  });
+          scope.$watch('newType',function(){
+            if (angular.isDefined(scope.newType)) {
+              scope.target.groups.push(scope.newType.value);
+            }
+          });
 
-    scope.manageTagInGroup = function(group,tagName) {
-      var indexTag = group.tags.indexOf(tagName);
+          scope.manageTagInGroup = function(group,tagName) {
+            var indexTag = group.tags.indexOf(tagName);
 
-      if ( indexTag == -1) {
-        group.tags.push(tagName);
-      } else {
-        group.tags.splice(indexTag, 1);
+            if ( indexTag == -1) {
+              group.tags.push(tagName);
+            } else {
+              group.tags.splice(indexTag, 1);
+            }
+          }
+
+          scope.remove = function(index){
+            scope.target.groups.splice(index,1);
+          }
+      	}
       }
-    }
-
-    scope.remove = function(index){
-      scope.target.groups.splice(index,1);
-    }
-	}
- };
-});
+    })
+  });

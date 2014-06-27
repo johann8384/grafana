@@ -105,7 +105,6 @@ function (angular, _, kbn) {
 	console.log("update tags for ",$scope.target.series);
 	$scope.listTags();
       }
-
     });
 
     $scope.$watch('target.tags',function(){

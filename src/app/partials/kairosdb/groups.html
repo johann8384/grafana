@@ -10,48 +10,29 @@
 	</select>
 
 	<ul>
+		<li ng-repeat="group in target.groups" >
 
-		<li ng-repeat="group in target.groups">
-			<ul class="grafana-segment-list">
+			<a class="grafana-target-segment pointer" ng-click="remove($index)" tabindex="1">
+			   <i class="icon-remove"></i>
+			</a>
 
-				<li>
-					<span class="grafana-target-controls">
-					   <a class="pointer" ng-click="remove($index)" tabindex="1">
-					   <i class="icon-remove"></i>
-					   </a>
-					</span>
-				</li>
+			<span ng-if="group.name == 'tag'" class="grafana-target-segment-list">
+				<ul class="grafana-target-segment">
+					<li ng-repeat="(tagName,tagValues) in tagsList" class="grafana-segment-list" ng-click="manageTagInGroup(group,tagName)" style="color:{{group.tags.indexOf(tagName) == -1 ? '':'#33b5e5'}};margin:0 auto;">
+						{{tagName}}
+					</li>
+				</ul>
+			</span>
 
-				<li ng-if="group.name == 'tag'" style="margin-top:10px;">
-					<ul>
-						<li ng-repeat="(tagName,tagValues) in tagsList" class="grafana-segment-list" ng-click="manageTagInGroup(group,tagName)" style="color:{{group.tags.indexOf(tagName) == -1 ? '':'#33b5e5'}};margin:0 auto;">
-							{{tagName}}
-						</li>
-					</ul>
-				</li>
+			<span ng-if="group.name == 'time'" class="grafana-target-segment-list">
+				<input ng-model="group.range_size.value" class="input-medium" type="number" placeholder="target units">
+				<select ng-model="group.range_size.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+				<input ng-model="group.group_count" class="input-small" type="number" placeholder="target size">
+			</span>
 
-				<li ng-if="group.name == 'time'" style="margin-top:10px;" class="grafana-target-segment-input">
-							<input class="input-medium" type="text"  placeholder="target size">
-
-							<select class="input-small" style="width:auto;">
-								<option value="0">Years</option>
-								<option value="1">Months</option>
-								<option value="2">Weeks</option>
-								<option value="3">Days</option>
-								<option value="4">Hours</option>
-								<option value="5">Minutes</option>
-								<option value="6">Seconds</option>
-								<option value="7" selected="selected">Milliseconds</option>
-							</select>							
-							<input class="input-small" type="number" >
-				</li>
-
-				<li ng-if="group.name == 'value'" style="margin-top:10px;">
-						<input class="input-medium" type="text"  placeholder="target size">
-
-
-				</li>
-			</ul>
+			<span ng-if="group.name == 'value'" class="grafana-target-segment-list">
+				<input class="input-medium" type="text"  placeholder="target size">
+			</span>
 
 		</li>
 

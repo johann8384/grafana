@@ -21,6 +21,46 @@ function (angular, _, $) {
         restrict: 'E',
         scope: true,
         templateUrl: 'app/partials/kairosdb/aggregator-by.html'
+        templateUrl: 'app/partials/kairosdb/aggregator-by.html',
+
+        link: function(scope, elem) {
+          scope.newElem = function(type) {
+
+            var group_1 = ['avg','dev','min','max','sum','count','least_squares'];
+
+            if (group_1.indexOf(type) != -1) {
+              return {name:type, align_sampling:'true', sampling:{value:'',unit:'milliseconds'}}
+
+            };
+
+            if (type == 'div') {
+              return {name:'div',divisor:''}
+            }
+
+            if (type == 'rate') {
+              return {name:'rate', unit:'milliseconds'}
+            }
+
+            if (type == 'scale') {
+              return {name:'scale', factor:''}
+            }
+
+            if (type == 'percentile') {
+              return {name:'percentile', percentile:"" ,sampling:{value:'',unit:'milliseconds'}}
+            }
+        }
+
+        scope.$watch('newAgreg',function(){
+          if (angular.isDefined(scope.newAgreg)) {
+             scope.target.aggregators.push(scope.newAgreg.value);
+          }
+        });
+
+        scope.remove = function(index){
+          scope.target.aggregators.splice(index,1);
+        }
+
+        }
       };
     })
 
@@ -67,4 +107,4 @@ function (angular, _, $) {
       	}
       }
     })
-  });
+  })

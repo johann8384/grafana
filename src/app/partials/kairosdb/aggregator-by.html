@@ -5,9 +5,83 @@
 
 	</a>
 
-	<select ng-model="newType" ng-options="o.name for o in  [{value:newTag(),name:'Tags'},{value:newTime(),name:'Time'},{value:newValue(),name:'Value'}]">
+	<select ng-model="newAgreg" ng-options="o.name for o in  [{value:newElem('avg'),name:'Avg'},{value:newElem('dev'),name:'Dev'},{value:newElem('div'),name:'Div'},{value:newElem('min'),name:'Min'},{value:newElem('max'),name:'Max'},{value:newElem('rate'),name:'Rate'},{value:newElem('sum'),name:'Sum'},{value:newElem('scale'),name:'Scale'},{value:newElem('count'),name:'Count'},{value:newElem('least_squares'),name:'Least_squares'},{value:newElem('percentile'),name:'Percentile'}]">
+
+
+
 		<option value="">Select type</option>
 	</select>
+
+
+
+
+	<ul>
+
+
+		<li ng-repeat="aggregator in target.aggregators" >
+
+		{{aggregator}}
+
+			<a class="grafana-target-segment pointer" ng-click="remove($index)" tabindex="1">
+			   <i class="icon-remove"></i>
+			</a>
+
+
+			<span ng-if="aggregator.name == 'avg'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'dev'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'div'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.divisor" class="input-small" type="text" placeholder="Sampling">
+			</span>
+
+			<span ng-if="aggregator.name == 'min'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'max'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'rate'" class="grafana-target-segment-list">
+				<select ng-model="aggregator.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'sum'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'scale'" class="grafana-target-segment-list">
+				<select ng-model="aggregator.factor" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'count'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'least_squares'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+			<span ng-if="aggregator.name == 'percentile'" class="grafana-target-segment-list">
+				<input ng-model="aggregator.percentile" class="input-small" type="text" placeholder="Sampling">
+				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+			</span>
+
+		</li>
+
+	</ul>
 
 
 </div>

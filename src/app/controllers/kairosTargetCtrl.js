@@ -32,6 +32,7 @@ function (angular, _, kbn) {
 	"scale"
       ];
 
+
       $scope.units        = [
 	"milliseconds",
 	"seconds",
@@ -116,6 +117,12 @@ function (angular, _, kbn) {
     $scope.$watch('target.groups',function(){
       console.log("$scope.target.groups");
       console.log($scope.target.groups);
+      $scope.get_data();
+    },true);
+
+    $scope.$watch('target.aggregators',function(){
+      console.log("$scope.target.aggregators");
+      console.log($scope.target.aggregators);
       $scope.get_data();
     },true);
 

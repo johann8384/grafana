@@ -5,6 +5,8 @@
 
 	</a>
 
+
+
 	<select ng-model="newType" ng-options="o.name for o in [{value:newTag(),name:'Tags'},{value:newTime(),name:'Time'},{value:newValue(),name:'Value'}]">
 		<option value="">Select type</option>
 	</select>
@@ -15,6 +17,8 @@
 			<a class="grafana-target-segment pointer" ng-click="remove($index)" tabindex="1">
 			   <i class="icon-remove"></i>
 			</a>
+
+			<span class="grafana-target-segment pointer">{{group.name}}</span>
 
 			<span ng-if="group.name == 'tag'" class="grafana-target-segment-list">
 				<ul class="grafana-target-segment">

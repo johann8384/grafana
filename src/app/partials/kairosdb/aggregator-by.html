@@ -26,8 +26,10 @@
 			   <i class="icon-remove"></i>
 			</a>
 
+			<span class="grafana-target-segment pointer">{{aggregator.name}}</span>
 
 			<span ng-if="aggregator.name == 'avg'" class="grafana-target-segment-list">
+
 				<input ng-model="aggregator.sampling.value" class="input-small" type="text" placeholder="Sampling">
 				<select ng-model="aggregator.sampling.unit" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
 			</span>

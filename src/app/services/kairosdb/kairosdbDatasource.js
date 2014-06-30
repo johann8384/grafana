@@ -1,14 +1,17 @@
 define([
   'angular',
   'underscore',
-  'kbn'
+  'jquery',
+  'config',
+  'kbn',
+  'moment'
 ],
-function (angular, _, kbn) {
+function (angular, _, $, config, kbn, moment) {
   'use strict';
 
   var module = angular.module('kibana.services');
 
-  module.factory('KairosDatasource', function($q, $http) {
+  module.factory('KairosDatasource', function(dashboard, $q, $http) {
 
     function KairosDatasource(datasource) {
       this.type = 'kairosdb';

@@ -27,6 +27,49 @@ function (angular, _, $, config, kbn, moment) {
       };
     }
 
+    KairosDatasource.getPayload = function(target) {
+	// Clean groups
+	var groups = [];
+	for (var x in target.groups) {
+	  var group = angular.copy(target.groups[x]);
+	  delete group["$$hashKey"];
+	  groups.push(group);
+	}
+
+	// Clean aggregators
+	var aggregators = [];
+	for (var x in target.aggregators) {
+	  var aggregator = angular.copy(target.aggregators[x]);
+	  delete aggregator["$$hashKey"];
+	  aggregators.push(aggregator);
+	}
+
+	// Clean tags
+	var tags = {};
+	angular.forEach(target.tags, function(value, key) {
+	  if (value.length>0) {
+	    tags[key] = value;
+	  }
+	}, tags);
+
+
+	var obj   = {};
+	obj.name  = target.series;
+	obj.tags  = tags;
+	if (aggregators.length>0) {
+	  obj.aggregators = aggregators;
+	}
+	if (groups.length>0) {
+	  obj.group_by = groups;
+	}
+
+	if (JSON.stringify(obj) == "{\"tags\":{}}") {
+	  return {}
+	}
+
+	return obj;
+    }
+
     KairosDatasource.prototype.query = function(filterSrv, options) {
       //console.log("ds query");
       //console.log(filterSrv);
@@ -42,23 +85,9 @@ function (angular, _, $, config, kbn, moment) {
 
       payload.cache_time = 0;
       payload.metrics = _.chain(options.targets).reject(function(target) {
-	return (!target.series /*|| !target.column*/ || target.hide);
+		return (!target.series /*|| !target.column*/ || target.hide);
       }).map(function(target) {
-
-	//console.log("QUERY!!!! ",target);
-
-	var obj   = {};
-	obj.name  = target.series;
-	obj.tags  = target.tags;
-	if (target.aggregators.length>0) {
-	  obj.aggregators = target.aggregators;
-	}
-	if (target.groups.length>0) {
-	  obj.group_by = target.groups;
-	}
-	console.log(obj);
-
-	return obj;
+		return KairosDatasource.getPayload(target);
       })
       .value();
 

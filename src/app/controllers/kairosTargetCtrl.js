@@ -8,10 +8,11 @@ function (angular, _, kbn) {
 
   var module = angular.module('kibana.controllers');
 
-  module.controller('KairosTargetCtrl', function($scope, $timeout) {
+  module.controller('KairosTargetCtrl', function($scope, $timeout, KairosDatasource) {
 
     $scope.init = function() {
 
+      $scope.queryJson = "";
 
       $scope.tabs = ['Group by', 'Aggregators','Tags'];
 
@@ -50,7 +51,10 @@ function (angular, _, kbn) {
 
       $scope.oldSeries = $scope.target.series;
       $scope.$on('typeahead-updated', function(){
-      $timeout($scope.get_data);
+        $timeout(function(){
+          $scope.get_data;
+          $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
+        });
       });
     };
 
@@ -59,6 +63,7 @@ function (angular, _, kbn) {
       if ($scope.oldSeries !== $scope.target.series) {
         $scope.oldSeries = $scope.target.series;
         $scope.get_data();
+	$scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
       }
     };
 
@@ -108,15 +113,18 @@ function (angular, _, kbn) {
     });
 
     $scope.$watch('target.tags',function(){
-      $scope.get_data();
+        $scope.get_data();
+        $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
     },true);
 
     $scope.$watch('target.groups',function(){
       $scope.get_data();
+      $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
     },true);
 
     $scope.$watch('target.aggregators',function(){
       $scope.get_data();
+      $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
     },true);
 
     $scope.getTemplateTab = function(tab) {

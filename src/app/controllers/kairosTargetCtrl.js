@@ -14,7 +14,7 @@ function (angular, _, kbn) {
 
       $scope.queryJson = "";
 
-      $scope.tabs = ['Group by', 'Aggregators','Tags'];
+      $scope.tabs = ['Group by', 'Aggregators','Tags', 'JSON'];
 
       $scope.indexTab = -1;
 
@@ -139,6 +139,10 @@ function (angular, _, kbn) {
 
       if (tab == 'Tags') {
         return "app/partials/kairosdb/tags.html";
+      }
+
+      if (tab == 'JSON') {
+	return "app/partials/kairosdb/json.html";
       }
 
     }

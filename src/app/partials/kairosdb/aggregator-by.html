@@ -1,6 +1,32 @@
-<div>
 
-	<a class="grafana-target-segment">
+<style type="text/css">
+	.aggregatorBy{
+		margin-top:10px;
+	}
+	.aggregatorBy .noBorderRight{
+		border-right: 0px !important;
+	}
+	.aggregatorBy .listGroups{
+		list-style: none;
+		margin-top: 5px;
+	}
+
+	.aggregatorBy .grafana-target-segment{
+		border-right: 1px solid #4b4b4b;
+	}
+
+	.aggregatorBy  .tagNames{
+		min-width: 85px;
+		width: auto;
+	}
+	
+
+</style>
+
+
+<div class="aggregatorBy">
+
+	<a class="grafana-target-segment noBorderRight">
 		<i class="icon-plus"></i>
 
 	</a>
@@ -13,20 +39,15 @@
 	</select>
 
 
-
-
 	<ul>
 
+		<li ng-repeat="aggregator in target.aggregators" style="border-bottom:1px solid #4b4b4b; margin-bottom: 15px; padding-bottom: 7px; width:100%; list-style:none;">
 
-		<li ng-repeat="aggregator in target.aggregators" >
-
-
-
-			<a class="grafana-target-segment pointer" ng-click="remove($index)" tabindex="1">
+			<a class="grafana-target-segment pointer " ng-click="remove($index)" tabindex="1">
 			   <i class="icon-remove"></i>
 			</a>
 
-			<span class="grafana-target-segment pointer">{{aggregator.name}}</span>
+			<span class="grafana-target-segment pointer tagNames noBorderRight">{{aggregator.name}}</span>
 
 			<span ng-if="aggregator.name == 'avg'" class="grafana-target-segment-list">
 
@@ -84,6 +105,5 @@
 		</li>
 
 	</ul>
-
 
 </div>

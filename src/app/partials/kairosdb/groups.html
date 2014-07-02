@@ -1,6 +1,42 @@
-<div>
+<style type="text/css">
+	.groupBy{
+		margin-top:10px;
+	}
+	.groupBy .noBorderRight{
+		border-right: 0px !important;
+	}
+	.groupBy .listGroups{
+		list-style: none;
+		margin-top: 5px;
+	}
 
-	<a class="grafana-target-segment">
+	.groupBy .grafana-target-segment{
+		border-right: 1px solid #4b4b4b;
+	}
+
+	.groupBy .listGroups .tagNames{
+		min-width: 85px;
+		width: auto;
+	}
+	.groupBy .listGroups .listInGroups{
+		margin: 0;
+		padding: 0;
+
+	}
+
+	.groupBy .listGroups .listInGroups li{
+		float:left;
+		margin: 0 5px;
+		padding: 7px;
+		border-radius: 5px;
+		border: 1px solid #4b4b4b;
+
+	}
+
+</style>
+<div class="groupBy">
+	
+	<a class="grafana-target-segment noBorderRight">
 		<i class="icon-plus"></i>
 
 	</a>
@@ -12,17 +48,17 @@
 	</select>
 
 	<ul>
-		<li ng-repeat="group in target.groups" >
+		<li ng-repeat="group in target.groups" class="listGroups" style="border-bottom:1px solid #4b4b4b; margin-bottom: 15px; padding-bottom: 7px;" >
 
 			<a class="grafana-target-segment pointer" ng-click="remove($index)" tabindex="1">
 			   <i class="icon-remove"></i>
 			</a>
 
-			<span class="grafana-target-segment pointer">{{group.name}}</span>
+			<span class="grafana-target-segment pointer noBorderRight tagNames">{{group.name}}</span>
 
 			<span ng-if="group.name == 'tag'" class="grafana-target-segment-list">
-				<ul class="grafana-target-segment">
-					<li ng-repeat="(tagName,tagValues) in tagsList" class="grafana-segment-list" ng-click="manageTagInGroup(group,tagName)" style="color:{{group.tags.indexOf(tagName) == -1 ? '':'#33b5e5'}};margin:0 auto;">
+				<ul class="grafana-target-segment noBorderRight listInGroups">
+					<li ng-repeat="(tagName,tagValues) in tagsList" class="grafana-segment-list pointer" ng-click="manageTagInGroup(group,tagName)" style="color:{{group.tags.indexOf(tagName) == -1 ? '':'#33b5e5'}};">
 						{{tagName}}
 					</li>
 				</ul>
@@ -47,7 +83,5 @@
 		</li>
 
 	</ul>
-
-
 
 </div>

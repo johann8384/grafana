@@ -1,12 +1,49 @@
-<ul class="grafana-segment-list" style="margin:10px;padding:10px;">
-	<li ng-repeat="(tag,values) in tagsList" class="span3">
-		<h5>{{tag}}:</h5>
+<style type="text/css">
+	.listInTags{
+		width: 100%;
+		border-bottom:1px solid #4b4b4b; margin-bottom: 15px; padding-bottom: 7px; width:100%;
 
-		<ul style="height:150px;overflow: auto;margin:0 auto;">
-			<li ng-repeat="value in values" ng-click="manageTag(tag,value)" ng-show="value.length>0" style="color:{{target.tags[tag].indexOf(value) == -1 ? '':'#33b5e5'}};margin:0 auto;" class="grafana-segment-list">
+	}
+
+
+
+	.listInTags .tagNames{
+		float:left;
+		min-width: 120px;
+		width: auto;
+		border-right: 1px solid #4b4b4b;
+		margin-right: 10px;
+		font-weight: bold;
+		color:#fff;
+	}
+
+	.listInTags ul{
+		min-height:55px; height: auto;margin:0 auto; float:left;
+		min-width: 620px; width: 620px;
+	}
+
+	.listInTags ul li{
+		float:left;
+		margin: 0px 0px 7px 5px !important;
+		padding: 7px;
+		border-radius: 5px;
+		border: 1px solid #4b4b4b;
+	}
+
+</style>
+<div style="margin-top:10px;">
+<ul class="grafana-segment-list">
+	<li ng-repeat="(tag,values) in tagsList" class="listInTags">
+
+
+	<span class="grafana-target-segment pointer tagNames">{{tag}}:</span>
+
+		<ul>
+			<li ng-repeat="value in values" ng-click="manageTag(tag,value)" ng-show="value.length>0" style="color:{{target.tags[tag].indexOf(value) == -1 ? '':'#33b5e5'}};margin:0 auto;" class="grafana-segment-list pointer">
 				{{value}}
 			</li>
 		</ul>
 
 	</li>
-<ul>
+</ul>
+</div>

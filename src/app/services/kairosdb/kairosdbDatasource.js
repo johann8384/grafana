@@ -71,11 +71,7 @@ function (angular, _, $, config, kbn, moment) {
     }
 
     KairosDatasource.prototype.query = function(filterSrv, options) {
-      //console.log("ds query");
-      //console.log(filterSrv);
-      //console.log(options);
-
-      var payload = {};
+    var payload = {};
 
       this.translateTime(options.range.from, payload, "start");
       this.translateTime(options.range.to, payload, "end");
@@ -87,11 +83,9 @@ function (angular, _, $, config, kbn, moment) {
       payload.metrics = _.chain(options.targets).reject(function(target) {
 		return (!target.series /*|| !target.column*/ || target.hide);
       }).map(function(target) {
-		return KairosDatasource.getPayload(target);
+        return KairosDatasource.getPayload(target);
       })
       .value();
-
-      //console.log("Payload2", payload);
 
       var query = {
 	method: 'POST',

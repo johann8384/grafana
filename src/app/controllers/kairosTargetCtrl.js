@@ -106,6 +106,7 @@ function (angular, _, kbn) {
 
     }
 
+    //Return to JSON panel
     $scope.$watch('target.series',function(){
       if (angular.isDefined($scope.target.series)) {
         $scope.listTags();
@@ -114,19 +115,21 @@ function (angular, _, kbn) {
 
     $scope.$watch('target.tags',function(){
         $scope.get_data();
-        $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
+	$scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target), null, " ");
     },true);
 
     $scope.$watch('target.groups',function(){
       $scope.get_data();
-      $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
+      $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target), null, " ");
     },true);
 
     $scope.$watch('target.aggregators',function(){
       $scope.get_data();
-      $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
+      $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target), null, " ");
     },true);
 
+
+    //URL templates for tabs
     $scope.getTemplateTab = function(tab) {
 
       if (tab == 'Group by') {
@@ -146,6 +149,7 @@ function (angular, _, kbn) {
       }
 
     }
+
 
     $scope.manageTag = function(tag,value) {
 

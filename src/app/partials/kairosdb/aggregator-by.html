@@ -84,7 +84,7 @@
 			</span>
 
 			<span ng-if="aggregator.name == 'scale'" class="grafana-target-segment-list">
-				<select ng-model="aggregator.factor" class="input-small" style="width:auto;" ng-options="u for u in units"></select>
+				<input ng-model="aggregator.factor" type="text" class="input-small" placeholder="Factor">
 			</span>
 
 			<span ng-if="aggregator.name == 'count'" class="grafana-target-segment-list">

@@ -39,8 +39,8 @@ function (Settings) {
         url: "http://my.graphite.server.com:8080",
       },
       kairosdb: {
-      	type: 'kairosdb',
-      	url: "http://my.kairosdb.server:8080"
+        type: 'kairosdb',
+        url: "http://my.kairosdb.server:8080"
       },
     },
     */

@@ -44,6 +44,10 @@ function (angular, app, $, _, kbn, moment, TimeSeries) {
         {
           title:'Display Styles',
           src:'app/panels/graph/styleEditor.html'
+	},
+	 {
+	  title:'JSON',
+	  src:'app/partials/generalJson.html'
         }
       ],
       fullscreenEdit: true,

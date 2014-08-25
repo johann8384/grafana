@@ -70,6 +70,10 @@ function (_, kbn) {
     var currentTime;
     var currentValue;
 
+    if (fillStyle === 'insert zero') {
+      this.fillMissingValuesWithZero();
+    }
+
     for (var i = 0; i < this.datapoints.length; i++) {
       currentValue = this.datapoints[i][0];
       currentTime = this.datapoints[i][1];
@@ -114,6 +118,53 @@ function (_, kbn) {
     }
 
     return result;
+  };
+
+  TimeSeries.prototype.fillMissingValuesWithZero = function() {
+    var pointDist = this.guessPointDistance();
+    if (pointDist === 0) {
+      console.log("Cannot guess point distance, aborting zero insert attempt");
+      return;
+    }
+
+    var i, currentDist, start, base;
+    var newpoints = [];
+    newpoints.push(this.datapoints[0]);
+
+    for (i = 1; i < this.datapoints.length; i++) {
+      start = this.datapoints[i][1];
+      base = this.datapoints[i - 1][1];
+      currentDist = start - base;
+      while (currentDist > pointDist) {
+        base += pointDist;
+        currentDist -= pointDist;
+        newpoints.push([0, base]);
+      }
+      newpoints.push(this.datapoints[i]);
+    }
+
+    this.datapoints = newpoints;
+  };
+
+  TimeSeries.prototype.guessPointDistance = function() {
+    var prevDist, currentDist, sameCount, i;
+    prevDist = currentDist = sameCount = 0;
+
+    for (i = 1; i < this.datapoints.length; i++) {
+      currentDist = this.datapoints[i][1] - this.datapoints[i - 1][1];
+      if (currentDist === prevDist) {
+        sameCount++;
+      }
+      else {
+        prevDist = currentDist;
+        sameCount = 1;
+      }
+      if (sameCount === 2) {
+        break;
+      }
+    }
+
+    return sameCount === 2 ? prevDist : 0;
   };
 
   return TimeSeries;

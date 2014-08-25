@@ -28,7 +28,7 @@
     </div>
     <div class="editor-option">
       <label class="small">Null point mode <tip>Define how null values should be drawn</tip></label>
-      <select class="input-medium" ng-model="panel.nullPointMode" ng-options="f for f in ['connected', 'null', 'null as zero']" ng-change="render()"></select>
+      <select class="input-medium" ng-model="panel.nullPointMode" ng-options="f for f in ['connected', 'null', 'null as zero', 'insert zero']" ng-change="render()"></select>
     </div>
     <div class="editor-option">
       <label class="small">Staircase line</label><input type="checkbox" ng-model="panel.steppedLine" ng-checked="panel.steppedLine" ng-change="render()">

@@ -28,6 +28,21 @@ define([
       });
     });
 
+    describe('when nullPointMode is insert zero points', function() {
+      beforeEach(function() {
+        series = new TimeSeries({
+          info: { alias: 'test' },
+               datapoints: [[1,2], [2,4], [5,6], [8, 12]], // two points missing (timepoints 8 & 10)
+        });
+        points = series.getFlotPairs('insert zero', yAxisFormats);
+      });
+
+      it('should insert two new points', function() {
+        expect(points.length).to.be(6);
+      });
+
+    });
+
     describe('series overrides', function() {
       var series;
       beforeEach(function() {

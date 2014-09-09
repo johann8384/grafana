@@ -12,3 +12,5 @@ src/css/*.min.css
 *.sublime-workspace
 *.swp
 .idea/
+
+.DS_Store

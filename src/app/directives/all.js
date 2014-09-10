@@ -18,6 +18,6 @@ define([
   './templateParamSelector',
   './graphiteSegment',
   './grafanaVersionCheck',
-  './influxdbFuncEditor'
+  './influxdbFuncEditor',
   './kairosdbFuncEditor'
 ], function () {});

@@ -23,55 +23,54 @@ function (angular, _, $, config, kbn, moment) {
       this.name = datasource.name;
 
       this.templateSettings = {
-	interpolate : /\[\[([\s\S]+?)\]\]/g,
+        interpolate : /\[\[([\s\S]+?)\]\]/g,
       };
     }
 
     KairosDatasource.getPayload = function(target) {
-	// Clean groups
-	var groups = [];
-	for (var x in target.groups) {
-	  var group = angular.copy(target.groups[x]);
-	  delete group["$$hashKey"];
-	  groups.push(group);
-	}
+      // Clean groups
+      var groups = [];
+      for (var x in target.groups) {
+        var group = angular.copy(target.groups[x]);
+        delete group["$$hashKey"];
+        groups.push(group);
+      }
 
-	// Clean aggregators
-	var aggregators = [];
-	for (var x in target.aggregators) {
-	  var aggregator = angular.copy(target.aggregators[x]);
-	  delete aggregator["$$hashKey"];
-	  aggregators.push(aggregator);
-	}
+      // Clean aggregators
+      var aggregators = [];
+      for (var x in target.aggregators) {
+        var aggregator = angular.copy(target.aggregators[x]);
+        delete aggregator["$$hashKey"];
+        aggregators.push(aggregator);
+      }
 
-	// Clean tags
-	var tags = {};
-	angular.forEach(target.tags, function(value, key) {
-	  if (value.length>0) {
-	    tags[key] = value;
-	  }
-	}, tags);
+      // Clean tags
+      var tags = {};
+      angular.forEach(target.tags, function(value, key) {
+        if (value.length>0) {
+          tags[key] = value;
+        }
+      }, tags);
 
+      var obj   = {};
+      obj.name  = target.series;
+      obj.tags  = tags;
+      if (aggregators.length>0) {
+        obj.aggregators = aggregators;
+      }
+      if (groups.length>0) {
+        obj.group_by = groups;
+      }
 
-	var obj   = {};
-	obj.name  = target.series;
-	obj.tags  = tags;
-	if (aggregators.length>0) {
-	  obj.aggregators = aggregators;
-	}
-	if (groups.length>0) {
-	  obj.group_by = groups;
-	}
+      if (JSON.stringify(obj) == "{\"tags\":{}}") {
+        return {}
+      }
 
-	if (JSON.stringify(obj) == "{\"tags\":{}}") {
-	  return {}
-	}
-
-	return obj;
+      return obj;
     }
 
     KairosDatasource.prototype.query = function(filterSrv, options) {
-    var payload = {};
+      var payload = {};
 
       this.translateTime(options.range.from, payload, "start");
       this.translateTime(options.range.to, payload, "end");
@@ -81,32 +80,32 @@ function (angular, _, $, config, kbn, moment) {
 
       payload.cache_time = 0;
       payload.metrics = _.chain(options.targets).reject(function(target) {
-		return (!target.series /*|| !target.column*/ || target.hide);
+        return (!target.series /*|| !target.column*/ || target.hide);
       }).map(function(target) {
         return KairosDatasource.getPayload(target);
       })
       .value();
 
       var query = {
-	method: 'POST',
-	url: '/api/v1/datapoints/query',
-	data: payload,
-	/*
-	headers: {
-	  'Content-Type': 'application/x-www-form-urlencoded'
-	}
-	*/
+        method: 'POST',
+        url: '/api/v1/datapoints/query',
+        data: payload,
+        /*
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        */
       };
       return this.doKairosDBRequest(query).then(handleKairosDBQueryResponse);
     }
 
     KairosDatasource.prototype.listSeries = function() {
       return this.doKairosDBRequest({url:'/api/v1/metricnames'}).then(function(results) {
-	if (!results.data) {
-	  return [];
-	}
+        if (!results.data) {
+          return [];
+        }
 
-	return results.data.results
+        return results.data.results
       });
     };
 
@@ -117,28 +116,28 @@ function (angular, _, $, config, kbn, moment) {
     KairosDatasource.prototype.listTags = function(series) {
 
       var payload = {
-	metrics:[{'tags':{},'name':series}],
-	cache_time:0,
-	start_absolute:0
+        metrics:[{'tags':{},'name':series}],
+        cache_time:0,
+        start_absolute:0
       };
 
       var query = {
-	method: 'POST',
-	url:'/api/v1/datapoints/query/tags',
-	data: payload,
-	headers: {
-	  'Content-Type': 'application/x-www-form-urlencoded'
-	}
+        method: 'POST',
+        url:'/api/v1/datapoints/query/tags',
+        data: payload,
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       };
 
       return this.doKairosDBRequest(query).then(function(results) {
-	return angular.isDefined(results.data) ? KairosDatasource.parseTags(results.data) : {}
+        return angular.isDefined(results.data) ? KairosDatasource.parseTags(results.data) : {}
       });
     };
 
     KairosDatasource.prototype.doKairosDBRequest = function(options) {
       if (!options.method) {
-	options.method = 'GET';
+        options.method = 'GET';
       }
 
       options.url = this.url + options.url;
@@ -149,21 +148,21 @@ function (angular, _, $, config, kbn, moment) {
       var output = [];
 
       _.each(results.data.queries, function(series) {
-	var sample_size = series.sample_size;
+        var sample_size = series.sample_size;
 
-	_.each(series.results, function(result, index) {
+        _.each(series.results, function(result, index) {
 
-	  var target = result.name;
-	  var datapoints = [];
+          var target = result.name;
+          var datapoints = [];
 
-	  for(var i = 0; i < result.values.length; i++) {
-	    var t = Math.floor(result.values[i][0] / 1000);
-	    var v = result.values[i][1];
-	    datapoints[i] = [v,t];
-	  }
+          for(var i = 0; i < result.values.length; i++) {
+            var t = Math.floor(result.values[i][0] / 1000);
+            var v = result.values[i][1];
+            datapoints[i] = [v,t];
+          }
 
-	  output.push({ target:target, datapoints:datapoints });
-	});
+          output.push({ target:target, datapoints:datapoints });
+        });
       });
 
       var output2 = { data: _.flatten(output) };
@@ -173,67 +172,66 @@ function (angular, _, $, config, kbn, moment) {
 
     KairosDatasource.prototype.translateTime = function(date, response_obj, start_stop_name) {
       if (_.isString(date)) {
-	if (date === 'now') {
-	  return;
-	}
-	else if (date.indexOf('now-') >= 0) {
-	  name = start_stop_name + "_relative";
+        if (date === 'now') {
+          return;
+        }
+      } else if (date.indexOf('now-') >= 0) {
+        name = start_stop_name + "_relative";
+        date = date.substring(4);
 
-	  date = date.substring(4);
-	  var re_date = /(\d+)\s*(\D+)/;
-	  var result = re_date.exec(date);
-	  if (result) {
-	    var value = result[1];
-	    var unit = result[2];
-	    switch(unit) {
-	      case 'ms':
-		unit = 'milliseconds';
-		break;
-	      case 's':
-		unit = 'seconds';
-		break;
-	      case 'm':
-		unit = 'minutes';
-		break;
-	      case 'h':
-		unit = 'hours';
-		break;
-	      case 'd':
-		unit = 'days';
-		break;
-	      case 'w':
-		unit = 'weeks';
-		break;
-	      case 'M':
-		unit = 'months';
-		break;
-	      case 'y':
-		unit = 'years';
-		break;
-	      default:
-		break;
-	    }
-	    response_obj[name] = {
-	      "value": value,
-	      "unit": unit
-	    };
-	    return;
-	  }
-	  return;
-	}
+        var re_date = /(\d+)\s*(\D+)/;
+        var result = re_date.exec(date);
 
-	date = kbn.parseDate(date);
+        if (result) {
+          var value = result[1];
+          var unit = result[2];
+
+          switch(unit) {
+            case 'ms':
+              unit = 'milliseconds';
+              break;
+            case 's':
+              unit = 'seconds';
+              break;
+            case 'm':
+              unit = 'minutes';
+              break;
+            case 'h':
+              unit = 'hours';
+              break;
+            case 'd':
+              unit = 'days';
+              break;
+            case 'w':
+              unit = 'weeks';
+              break;
+            case 'M':
+              unit = 'months';
+              break;
+            case 'y':
+              unit = 'years';
+              break;
+            default:
+              break;
+          }
+          response_obj[name] = {
+            "value": value,
+            "unit": unit
+          };
+          return;
+        }
+        date = kbn.parseDate(date);
       }
       name = start_stop_name + "_absolute";
 
       date = moment.utc(date);
 
       if (dashboard.current.timezone === 'browser') {
-	date = date.local();
+        date = date.local();
       }
 
       if (config.timezoneOffset) {
-	date = date.zone(config.timezoneOffset);
+        date = date.zone(config.timezoneOffset);
       }
 
       response_obj[name] = date.valueOf();

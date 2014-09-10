@@ -33,7 +33,6 @@ function (angular, _, kbn) {
         "scale"
       ];
 
-
       $scope.units  = [
         "milliseconds",
         "seconds",
@@ -50,8 +49,8 @@ function (angular, _, kbn) {
       $scope.target.tags = {};
 
       $scope.oldSeries = $scope.target.series;
-      $scope.$on('typeahead-updated', function(){
-        $timeout(function(){
+      $scope.$on('typeahead-updated', function() {
+        $timeout(function() {
           $scope.get_data;
           $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
         });
@@ -63,7 +62,7 @@ function (angular, _, kbn) {
       if ($scope.oldSeries !== $scope.target.series) {
         $scope.oldSeries = $scope.target.series;
         $scope.get_data();
-	$scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
+        $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target));
       }
     };
 
@@ -88,11 +87,11 @@ function (angular, _, kbn) {
     $scope.listTags = function() {
       $scope.datasource.listTags($scope.target.series).then(function(tags) {
         $scope.tagsList = tags;
-          angular.forEach($scope.tagsList, function(value, key) {
-            if (!angular.isDefined(this[key])) {
-              this[key] = [];
-            }
-          }, $scope.target.tags);
+        angular.forEach($scope.tagsList, function(value, key) {
+          if (!angular.isDefined(this[key])) {
+            this[key] = [];
+          }
+        }, $scope.target.tags);
       });
     };
 
@@ -107,27 +106,26 @@ function (angular, _, kbn) {
     }
 
     //Return to JSON panel
-    $scope.$watch('target.series',function(){
+    $scope.$watch('target.series',function() {
       if (angular.isDefined($scope.target.series)) {
         $scope.listTags();
       }
     });
 
-    $scope.$watch('target.tags',function(){
-        $scope.get_data();
-	$scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target), null, " ");
-    },true);
-
-    $scope.$watch('target.groups',function(){
+    $scope.$watch('target.tags',function() {
       $scope.get_data();
       $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target), null, " ");
     },true);
 
-    $scope.$watch('target.aggregators',function(){
+    $scope.$watch('target.groups',function() {
       $scope.get_data();
       $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target), null, " ");
     },true);
 
+    $scope.$watch('target.aggregators',function() {
+      $scope.get_data();
+      $scope.queryJson = JSON.stringify(KairosDatasource.getPayload($scope.target), null, " ");
+    },true);
 
     //URL templates for tabs
     $scope.getTemplateTab = function(tab) {
@@ -145,22 +143,20 @@ function (angular, _, kbn) {
       }
 
       if (tab == 'JSON') {
-	return "app/partials/kairosdb/json.html";
+        return "app/partials/kairosdb/json.html";
       }
 
     }
-
 
     $scope.manageTag = function(tag,value) {
 
       var index = $scope.target.tags[tag].indexOf(value);
 
-      if ( index == -1) {
+      if (index == -1) {
         $scope.target.tags[tag].push(value);
       } else {
         $scope.target.tags[tag].splice(index, 1);
       }
-
     }
   });
 });

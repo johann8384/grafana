@@ -38,11 +38,39 @@ function (angular, _, kbn) {
           groupByTags[key] = true;
         });
       });
-
+      console.log(this.targets);
       return this.performTimeSeriesQuery(queries, start, end)
         .then(_.bind(function(response) {
           var result = _.map(response.data, _.bind(function(metricData, index) {
             return transformMetricData(metricData, groupByTags, this.targets[index]);
+          }, this));
+          return { data: result };
+        }, options));
+    };
+
+    OpenTSDBDatasource.prototype.queryDirectQuery = function(options) {
+      var start = convertToTSDBTime(options.range.from);
+      var end = convertToTSDBTime(options.range.to);
+      // var queries = _.compact(_.map(options.targets, convertTargetToQuery));
+      
+      // // No valid targets, return the empty result to save a round trip.
+      // if (_.isEmpty(queries)) {
+      //   var d = $q.defer();
+      //   d.resolve({ data: [] });
+      //   return d.promise;
+      // }
+
+      var groupByTags = {};
+      // _.each(queries, function(query) {
+      //   _.each(query.tags, function(val, key) {
+      //     groupByTags[key] = true;
+      //   });
+      // });
+
+      return this.performDirectQuery(options.queryContent, start, end)
+        .then(_.bind(function(response) {
+          var result = _.map(response.data, _.bind(function(metricData, index) {
+            return transformMetricDataDirectQuery(metricData, groupByTags, this.targets[index]);
           }, this));
           return { data: result };
         }, options));
@@ -82,6 +110,21 @@ function (angular, _, kbn) {
       });
     };
 
+    OpenTSDBDatasource.prototype.performDirectQuery = function(query, startTime, endTime) {
+      var options = {
+        method: 'GET',
+        url: this.url + '/api/query/query',
+        params: {
+          start: startTime,
+          end: endTime,
+          x: query
+        }
+      };
+      return $http(options).then(function(result) {
+        return result.data;
+      });
+    };
+
     function transformMetricData(md, groupByTags, options) {
       var dps = [],
           tagData = [],
@@ -105,6 +148,31 @@ function (angular, _, kbn) {
 
       return { target: metricLabel, datapoints: dps };
     }
+
+    function transformMetricDataDirectQuery(md, groupByTags, options) {
+      var dps = [],
+          tagData = [],
+          metricLabel = null;
+
+      if (!_.isEmpty(md.tags)) {
+        _.each(_.pairs(md.tags), function(tag) {
+          if (_.has(groupByTags, tag[0])) {
+            tagData.push(tag[0] + "=" + tag[1]);
+          }
+        });
+      }
+
+      metricLabel = createMetricLabel(md.metric, tagData, options);
+
+      // TSDB returns datapoints has a hash of ts => value.
+      // Can't use _.pairs(invert()) because it stringifies keys/values
+      _.each(md.dps, function (v, k) {
+        dps.push([v, k]);
+      });
+
+      return { target: metricLabel, datapoints: dps };
+    }
+
 
     function createMetricLabel(metric, tagData, options) {
       if (!_.isUndefined(options) && options.alias) {

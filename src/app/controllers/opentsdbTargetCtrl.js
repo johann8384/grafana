@@ -39,6 +39,10 @@ function (angular, _, kbn, gfunc) {
       }
     };
 
+    $scope.directQuery = function(query) {
+      $scope.get_data_direct_query(query);
+    };
+
     $scope.duplicate = function() {
       var clone = angular.copy($scope.target);
       $scope.panel.targets.push(clone);

@@ -62,8 +62,12 @@
   },
   "license": "Apache License",
   "dependencies": {
+    "body-parser": "^1.14.1",
+    "errorhandler": "^1.4.2",
+    "express": "^4.13.3",
     "grunt-jscs-checker": "^0.4.4",
     "karma-sinon": "^1.0.3",
+    "method-override": "^2.3.5",
     "sinon": "^1.10.3"
   }
 }

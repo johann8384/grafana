@@ -7,8 +7,8 @@ ENV PORT 3000
 RUN   mkdir -p $WORKDIR
 COPY . $WORKDIR
 WORKDIR $WORKDIR
+EXPOSE  $PORT
 
 RUN     npm install && npm install -g grunt-cli && grunt --force && grunt --force build;
 ENTRYPOINT  ["node", "server.js"]
-EXPOSE  $PORT
 

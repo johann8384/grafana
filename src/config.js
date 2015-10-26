@@ -12,7 +12,7 @@ function (Settings) {
         grafanaDB: true,
         index: 'grafana-dash',
         type: 'elasticsearch',
-        url: 'http://dashboard.ops.turn.com/search',
+        url: 'http://pipeline.dwh.turn.com/search',
       },
       graphite: {
         type: 'graphite',
@@ -21,11 +21,11 @@ function (Settings) {
       opentsdb: {
         default: true,
         type: 'opentsdb',
-        url: 'http://dwh-edge003.atl1.turn.com:4245',
+        url: 'http://pipeline.dwh.turn.com/splicer',
       },
       opentsdbM: {
         type: 'opentsdbM',
-        url: 'http://dwh-edge003.atl1.turn.com:4245',
+        url: 'http://pipeline.dwh.turn.com/splicer',
       },
     },
 

@@ -50,33 +50,6 @@
                     ng-change="addOpentsdbFunc()">
             </select>
           </li>
-          <li class="grafana-target-segment">
-            Downsample:
-            <input type="checkbox"
-                   class="grafana-target-option-checkbox"
-                   ng-model="target.shouldDownsample"
-                   ng-change="targetBlur(target)"
-                   >
-          </li>
-          <li ng-hide="!target.shouldDownsample">
-            <input type="text"
-                   class="input-small grafana-target-segment-input"
-                   ng-disabled="!target.shouldDownsample"
-                   ng-model="target.downsampleInterval"
-                   ng-change="targetBlur()"
-                   placeholder="interval"
-                   >
-          </li>
-          <li class="grafana-target-segment" ng-hide="!target.shouldDownsample">
-            Aggregator
-          </li>
-          <li ng-hide="!target.shouldDownsample">
-            <select ng-model="target.downsampleAggregator"
-                    class="grafana-target-segment-input input-small"
-                    ng-options="agg for agg in aggregators"
-                    ng-change="targetBlur()">
-            </select>
-          </li>
         </ul>
       </div>
       <div class="opentsdb-metric-definition" ng-hide="opentsdbFunc === ''">

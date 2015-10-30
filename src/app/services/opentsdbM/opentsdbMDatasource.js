@@ -61,11 +61,7 @@ function (angular, _, kbn) {
     }
 
     function convertToQuery(target) {
-      if (!target.shouldDownsample) {
-        return target.directQueryText;
-      }
-
-      return target.directQueryText.replace(":", ":" + target.downsampleInterval + "-" + target.downsampleAggregator + ":rate:");
+      return target.directQueryText;
     }
 
     function transformMetricDataDirectQuery(md) {

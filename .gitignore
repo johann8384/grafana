@@ -12,3 +12,10 @@ src/css/*.min.css
 *.swp
 .idea/
 .DS_Store
+
+## Gradle directories
+.gradle/
+build/
+
+## Docker Directory
+docker/resources

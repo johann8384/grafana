@@ -1,0 +1,43 @@
+version = 'production-2015111003'
+ext.image = rootProject.name
+ext.urlDev = 'docker-dev.turn.com:5000'
+ext.urlProd = 'docker.turn.com'
+ext.namespace = '/turn-tsdb/'
+ext.tagDev = urlDev + namespace + image + ':' + version
+ext.tagProd = urlProd + namespace + image + ':' + version
+
+description = "This is a docker container for Grafana"
+
+FileCollection grafanaFiles = files('src/*', 'package.json', 'Gruntfile.js', 'server.js')
+
+task copyConfig(type: Copy) {
+    from grafanaFiles
+    into('docker')
+}
+
+task buildDockerImage(type: Exec, dependsOn: copyConfig) {
+    commandLine 'docker', 'build', '-t', image,  './docker'
+}
+
+task tagDockerDevImage(type: Exec, dependsOn: buildDockerImage) {
+    commandLine 'docker', 'tag', image, tagDev
+}
+
+task tagDockerProdImage(type: Exec, dependsOn: buildDockerImage) {
+    commandLine 'docker', 'tag', image, tagProd
+}
+
+task pushDockerDevImage(type: Exec, dependsOn: tagDockerDevImage) {
+    commandLine 'docker', 'push', tagDev
+}
+
+task pushDockerProdImage(type: Exec, dependsOn: tagDockerProdImage) {
+    environment 'HOME', '.'
+    commandLine 'docker', 'push', tagProd
+}
+
+//task clean {
+//    cmd = "rm -rf docker/resources"
+//    println cmd
+//    cmd.execute()
+//}
